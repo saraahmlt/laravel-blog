@@ -4,13 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\pagecontrol;
 use App\Http\Controllers\pageAboutUs;
+use App\Http\Controllers\pagewelcome;
+use App\Http\Controllers\pageeditpost;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/welcome', [pagewelcome::class, 'welcome'])->name('welcome.edit');
 Route::get('/legals', [pagecontrol::class, 'legals'])->name('legals.edit');
 
 Route::get('/aboutus', [pageAboutUs::class, 'aboutus'])->name('aboutus.edit');
+Route::get('/editpost', [pageeditpost::class, 'editpost'])->name('editpost.edit');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
