@@ -5,23 +5,32 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\pagecontrol;
 use App\Http\Controllers\pageAboutUs;
 use App\Http\Controllers\pagewelcome;
-use App\Http\Controllers\pageeditpost;
+use App\Http\Controllers\AdminPostController;
+use App\Http\Controllers\PageAdminController;
 
 
-Route::get('/welcome', [pagewelcome::class, 'welcome'])->name('welcome.edit');
-Route::get('/legals', [pagecontrol::class, 'legals'])->name('legals.edit');
 
-Route::get('/aboutus', [pageAboutUs::class, 'aboutus'])->name('aboutus.edit');
-Route::get('/editpost', [pageeditpost::class, 'editpost'])->name('editpost.edit');
+Route::get('/', [pagewelcome::class, 'welcome'])->name('page.welcome');
+Route::get('/legals', [pagecontrol::class, 'legals'])->name('page.legals');
+Route::get('/aboutus', [pageAboutUs::class, 'aboutus'])->name('page.aboutus');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::group(['prefix' => '/dashboard'],function () {
+    Route::get('/', [PageAdminController::class, 'dashboard'])->middleware(['auth'])->name('admin.dashboard');
+    Route::get('/my-posts', [PageAdminController::class, 'myposts'])->middleware(['auth'])->name('admin.myposts');
+
+    Route::get('/post', [AdminPostController::class, 'create'])->middleware(['auth'])->name('admin.create.posts');
+    Route::post('/post', [AdminPostController::class, 'store'])->middleware(['auth'])->name('admin.store.posts');
+
+    Route::get('/post/{id}/edit', [AdminPostController::class, 'edit'])->middleware(['auth'])->name('admin.edit.posts');
+    Route::put('/post/{id}/edit', [AdminPostController::class, 'update'])->middleware(['auth'])->name('admin.update.posts');
+    Route::delete('/post/{id}/edit', [AdminPostController::class, 'destroy'])->middleware(['auth'])->name('admin.destroy.posts');
+
+});
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('edit.profile');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('update.profile');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('destroy.profile');
 });
 
 require __DIR__.'/auth.php';
