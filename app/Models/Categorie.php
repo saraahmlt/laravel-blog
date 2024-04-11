@@ -9,8 +9,8 @@ class Categorie extends Model
 {
     use HasFactory;
 
-    protected $table = 'categorie_post';
-    
+    protected $table = 'category';
+
     protected $fillable = [
        'id',
        'categorie',

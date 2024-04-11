@@ -7,8 +7,7 @@ use App\Http\Controllers\pageAboutUs;
 use App\Http\Controllers\pagewelcome;
 use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\PageAdminController;
-
-
+use App\Http\Controllers\CategorieController;
 
 Route::get('/', [pagewelcome::class, 'welcome'])->name('page.welcome');
 Route::get('/legals', [pagecontrol::class, 'legals'])->name('page.legals');
@@ -28,8 +27,7 @@ Route::group(['prefix' => '/dashboard'],function () {
 
 
 
-    Route::get('/', [PageAdminCategorieController::class, 'dashboard'])->middleware(['auth'])->name('admin.dashboard');
-    Route::get('/my-categories', [PageAdminCategorieController::class, 'mycategories'])->middleware(['auth'])->name('admin.mycategories');
+    Route::get('/categories', [CategorieController::class, 'index'])->middleware(['auth'])->name('admin.index.categories');
 
     Route::get('/categorie', [CategorieController::class, 'create'])->middleware(['auth'])->name('admin.create.categories');
     Route::post('/categorie', [CategorieController::class, 'store'])->middleware(['auth'])->name('admin.store.categories');
