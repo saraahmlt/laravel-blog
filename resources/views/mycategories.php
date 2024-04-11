@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </main>
-                <a  id= "PostCreate" href="{{('post')}}">Créer un post</a>  
+                <a  id= "PostCreate" href="{{('categorie')}}">Créer une categorie</a>  
 
                 <br>
                 <br>
@@ -81,17 +81,13 @@
                 <br> 
 
                 <div class="posts-container">
-    @foreach($posts as $post)
+    @foreach($categories as $categorie)
         <div class="post-container">
             <div class="post p-4">
-                <h2 class="text-white">{{ $post->title }}</h2>
-                <p>{{ $post->description }}</p>
-                <p>{{ $post->content }}</p>
-                <p>Author: {{ $post->user->name }}</p>
-                <img src="{{ $post->image }}" alt="Image du post">
+                <p>{{ $categorie->categorie }}</p>
                 <br>
-                <a href="{{ route('admin.edit.posts', $post->id) }}" id= "PostEdit">Modifier</a>
-                <form action="{{ route('admin.destroy.posts', $post->id) }}" method="post">
+                <a href="{{ route('admin.edit.categories', $categorie->id) }}" id= "PostEdit">Modifier</a>
+                <form action="{{ route('admin.destroy.categories', $categorie->id) }}" method="post">
                     @csrf
                     @method("DELETE")
                     <br>

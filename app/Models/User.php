@@ -19,8 +19,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'user_id',
         'password',
     ];
+    public function adnimPost(): HasMany
+    {
+        return $this->hasMany(AdminPost::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

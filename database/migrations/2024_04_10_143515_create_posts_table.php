@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Post; 
 
 return new class extends Migration
 {
@@ -17,6 +18,10 @@ return new class extends Migration
             $table->text('description');
             $table->text('content');
             $table->string('image');
+            $table->foreignId('user_id')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,3 +35,5 @@ return new class extends Migration
     }
 };
 ?>
+
+

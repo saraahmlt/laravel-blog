@@ -72,19 +72,12 @@
 
 
 
-<form action="{{ route('admin.store.posts') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('admin.store.categories') }}" method="post" enctype="multipart/form-data">
     
 @csrf
 @method("POST")
-    <input class="text-color" type="text" id="title" name="title" placeholder="Titre du post">
-    <input class="text-color" type="text" id="description" name="description" placeholder="Description">
-    <input class="text-color" type="text" id="content" name="content" placeholder="Contenu">
-
-   
-    <div class="image-container">
-        <input type="file" id="inputImage" name="image" accept="image/*">
-        <img id="imagePreview" src="#" alt="Aperçu de l'image" style="display:none; max-width: 300px;">
-    </div>
+    <input class="text-color" type="text" id="categorie" name="categorie" placeholder="Categorie">
+    
 
     <button type="submit">Envoyer</button>
 </form>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Catégorie</title>
+        <title>My Posts</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -71,36 +71,11 @@
                         </div>
                     </div>
                 </main>
-                <a  id= "PostCreate" href="{{('post')}}">Créer un post</a>  
+               <!-- resources/views/admin/posts/show.blade.php -->
 
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br> 
+               @extends('layouts.app')
 
-                <div class="posts-container">
-    @foreach($posts as $post)
-        <div class="post-container">
-            <div class="post p-4">
-                <h2 class="text-white">{{ $post->title }}</h2>
-                <p>{{ $post->description }}</p>
-                <p>{{ $post->content }}</p>
-                <p>Author: {{ $post->user->name }}</p>
-                <img src="{{ $post->image }}" alt="Image du post">
-                <br>
-                <a href="{{ route('admin.edit.posts', $post->id) }}" id= "PostEdit">Modifier</a>
-                <form action="{{ route('admin.destroy.posts', $post->id) }}" method="post">
-                    @csrf
-                    @method("DELETE")
-                    <br>
-                    <button type="submit" id= "PostDelete">Supprimer</button>
-                </form>
-            </div>
-        </div>
-    @endforeach
-</div>
+
 
                 <!-- Footer -->
                 @include('layouts.front.footer')

@@ -8,14 +8,13 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Post; 
+use App\Models\Post;
 
 
 
-    class PageAdminController extends Controller
-    {
-    
-        public function dashboard(): View
+class PageAdminCategorieController extends Controller
+{
+    public function dashboard(): View
         {
             return view('dashboard', [
                 'title' => 'Dashboard',
@@ -23,15 +22,14 @@ use App\Models\Post;
             ]);
         }
     
-        public function myposts(): View
+        public function mycategories(): View
         {
     //      
-            $posts = Post::latest()->take(6)->get();
+            $categorie = Categorie::latest()->take(6)->get();
     
-            return view('myposts', [
-                'title' => 'My posts',
-                'content' => '<h1>My posts</h1><p>Lorem Ipsum ...</p>',
-                'posts' => $posts,
+            return view('mycategories', [
+                'title' => 'Mes categories',
+                'categorie' => $categorie,
             ]);
-        }
+}
 }
