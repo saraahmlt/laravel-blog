@@ -12,7 +12,12 @@ class Categorie extends Model
     protected $table = 'category';
 
     protected $fillable = [
-       'id',
        'categorie',
     ];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'categorie_post');
+    }
+    
 }

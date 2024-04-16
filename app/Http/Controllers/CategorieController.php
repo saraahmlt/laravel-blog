@@ -30,22 +30,23 @@ class CategorieController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'categorie'=>'required',
-        ]);
+{
+    $request->validate([
+        'categorie' => 'required',
+    ]);
 
-        
-    
-        Post::create($postData);
+    // Récupérer les données du formulaire
+    $data = $request->only(['categorie']);
 
-        return redirect()->route('admin.mycategories')
-            ->with('success', 'Categorie created successfully.');
-    }
+    // Créer une nouvelle catégorie avec les données du formulaire
+    Categorie::create($data);
 
+    return redirect()->route('admin.index.categories')
+        ->with('success', 'Categorie created successfully.');
+}
     public function show($id)
     {
-        $post = Categorie::find($id);
+        $categorie = Categorie::find($id);
         return view('show', compact('categorie'));
     }
 
@@ -53,7 +54,8 @@ class CategorieController extends Controller
     {
         $categorie = Categorie::find($id);
         return view('editcategories', [
-            "categorie" => "Edit Categorie ",
+            "categorie" => $categorie,
+            
         ]);
     }
 
@@ -66,7 +68,7 @@ class CategorieController extends Controller
         $categorie = Categorie::find($id);
         $categorie->update($request->all());
 
-        return redirect()->route('admin.mycategories')
+        return redirect()->route('admin.index.categories')
             ->with('success', 'Categorie updated successfully.');
     }
 
@@ -75,7 +77,7 @@ class CategorieController extends Controller
         $categorie = Categorie::find($id);
         $categorie->delete();
 
-        return redirect()->route('admin.mycategories')
+        return redirect()->route('admin.index.categories')
             ->with('success', 'Categorie deleted successfully');
     }
 

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'user_id',
         'password',
+        'role',
     ];
     public function adnimPost(): HasMany
     {

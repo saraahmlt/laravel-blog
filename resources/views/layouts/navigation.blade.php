@@ -12,11 +12,15 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                
+                    <x-nav-link :href="route('page.welcome')">
+                        {{ __('Site') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.myposts')" :active="request()->routeIs('myposts')">
-                        {{ __('myposts') }}
+                        {{ __('Mes Posts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.index.categories')" :active="request()->routeIs('mycategories')">
+                        {{ __('Catégorie') }}
                     </x-nav-link>
                 </div>
             </div>

@@ -25,14 +25,13 @@ Route::group(['prefix' => '/dashboard'],function () {
     Route::delete('/post/{id}/edit', [AdminPostController::class, 'destroy'])->middleware(['auth'])->name('admin.destroy.posts');
     Route::get('/admin/posts/{id}', [AdminPostController::class, 'show'])->name('admin.posts.show');
 
-
-
+    
     Route::get('/categories', [CategorieController::class, 'index'])->middleware(['auth'])->name('admin.index.categories');
 
     Route::get('/categorie', [CategorieController::class, 'create'])->middleware(['auth'])->name('admin.create.categories');
     Route::post('/categorie', [CategorieController::class, 'store'])->middleware(['auth'])->name('admin.store.categories');
 
-    Route::get('categorie//{id}/edit', [CategorieController::class, 'edit'])->middleware(['auth'])->name('admin.edit.categories');
+    Route::get('/categorie/{id}/edit', [CategorieController::class, 'edit'])->middleware(['auth'])->name('admin.edit.categories');
     Route::put('/categorie/{id}/edit', [CategorieController::class, 'update'])->middleware(['auth'])->name('admin.update.categories');
     Route::delete('/categorie/{id}/edit', [CategorieController::class, 'destroy'])->middleware(['auth'])->name('admin.destroy.categories');
     Route::get('/admin/categories/{id}', [CategorieController::class, 'show'])->name('admin.categories.show');

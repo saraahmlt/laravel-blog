@@ -16,33 +16,9 @@
 
 
        body {
-        background: linear-gradient(135deg, #B19CD9 30%, #FF00FF);
-        color: white;
+    background: linear-gradient(135deg, #B19CD9 30%, #FF00FF);
+    color: white;
        }
-
-     
-       .post-p-4 {
-        background-color: black;
-        width: 700px;
-        height: 800px;
-        position: relative;
-        font-size: 20px;
-       }
-
-       #image {
-        height: 500px;
-        width :500px;
-        position: absolute;
-        top: 200px;
-        left: 100px;
-       }
-
-     
- 
-       
-
- 
-       
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
@@ -90,21 +66,20 @@
                         </div>
                     </main>
 
-                    <div class="posts-container">                 
-    <div class="posts">
-        <ul>
+<div class="posts-container">                 
+<div class="posts">
+<ul class="grid-cols-3">
             @if(count($posts) > 0)
                 @foreach($posts as $post)
-                    <li class="post-item">
-                        <div class="post-p-4">
-                            <h1 class="text-white">{{ $post->title }}</h1>
+                    <li class="">
+                        <div class="post p-4">
+                            <h2 class="text-white"><a href="{{ route('page.blog',$post->id) }}">{{ $post->title }}</a></h2>
+                            @if(!empty($post->user->name))
+                                <span class="block">{{ $post->user->name }}</span>
+                            @endif
                             <p>{{ $post->description }}</p>
-                            <p>{{ $post->content }}</p>
-                            <img id="image" src="{{ $post->image }}" alt="Image du post">
                         </div>
                     </li>
-                    <br>
-                    <br>
                 @endforeach
             @else
                 <li>No Posts</li>
@@ -113,6 +88,11 @@
     </div>
 </div>
 
+@include('layouts.front.footer')
+            
+        
+</div>
+</div>
 
 <br>
 <br>

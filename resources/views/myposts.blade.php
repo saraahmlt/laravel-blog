@@ -46,6 +46,7 @@
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-between; 
+    gap: 20px;
             }
             
 .post-container {
@@ -53,6 +54,20 @@
     margin-bottom: 20px;
 }
 
+.post-p {
+        font-size: 20px;
+}
+
+
+
+
+
+#image {
+        height: 500px;
+        width :500px;
+        top: 200px;
+        left: 100px;
+       }
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
@@ -83,12 +98,14 @@
                 <div class="posts-container">
     @foreach($posts as $post)
         <div class="post-container">
-            <div class="post p-4">
-                <h2 class="text-white">{{ $post->title }}</h2>
+            <div class="post-p-4">
+              <div class="post-p">
+                <h1 class="text-white">{{ $post->title }}</h1>
                 <p>{{ $post->description }}</p>
                 <p>{{ $post->content }}</p>
                 <p>Author: {{ $post->user->name }}</p>
-                <img src="{{ $post->image }}" alt="Image du post">
+                <img id="image" src="{{ $post->image }}" alt="Image du post">
+              </div>
                 <br>
                 <a href="{{ route('admin.edit.posts', $post->id) }}" id= "PostEdit">Modifier</a>
                 <form action="{{ route('admin.destroy.posts', $post->id) }}" method="post">
