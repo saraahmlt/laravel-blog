@@ -80,11 +80,23 @@
     <input class="text-color" type="text" id="description" name="description" placeholder="Description">
     <input class="text-color" type="text" id="content" name="content" placeholder="Contenu">
 
-   
+    <legend>Categories</legend>
+@if (!empty($categories) && count($categories) > 0)
+   @foreach ($categories as $categorie)
+       <div>
+           <input type="checkbox" id="cat-{{ $categorie->id }}" name="categories[]" value="{{ $categorie->id }}" />
+           <label for="cat-{{ $categorie->id }}">{{ $categorie->categorie }}</label>
+       </div>
+       @endforeach
+       @endif
+
     <div class="image-container">
         <input type="file" id="inputImage" name="image" accept="image/*">
         <img id="imagePreview" src="#" alt="Aperçu de l'image" style="display:none; max-width: 300px;">
     </div>
+    
+
+
 
     <button type="submit">Envoyer</button>
 </form>

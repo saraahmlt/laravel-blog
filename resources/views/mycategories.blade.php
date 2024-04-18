@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </main>
-                <a  id= "PostCreate" href="{{('categorie')}}">Créer une categorie</a>  
+                 
 
                 <br>
                 <br>
@@ -85,6 +85,8 @@
         <div class="post-container">
             <div class="post p-4">
                 <p>{{ $categorie->categorie }}</p>
+                <p>{{ $categorie->description }}</p>
+                <img id="image" src="{{ $categorie->image }}" alt="Image de la catégorie">
                 <br>
                 <a href="{{ route('admin.edit.categories', $categorie->id) }}" id= "PostEdit">Modifier</a>
                 <form action="{{ route('admin.destroy.categories', $categorie->id) }}" method="post">

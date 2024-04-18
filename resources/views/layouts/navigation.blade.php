@@ -19,9 +19,19 @@
                     <x-nav-link :href="route('admin.myposts')" :active="request()->routeIs('myposts')">
                         {{ __('Mes Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.store.posts')" :active="request()->routeIs('myposts')">
+                        {{ __('Créer un post') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('admin.index.categories')" :active="request()->routeIs('mycategories')">
                         {{ __('Catégorie') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.store.categories')" :active="request()->routeIs('mycategories')">
+                        {{ __('Créer une catégorie') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    
                 </div>
             </div>
 

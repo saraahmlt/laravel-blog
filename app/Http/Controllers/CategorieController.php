@@ -30,20 +30,23 @@ class CategorieController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'categorie' => 'required',
-    ]);
-
-    // Récupérer les données du formulaire
-    $data = $request->only(['categorie']);
-
-    // Créer une nouvelle catégorie avec les données du formulaire
-    Categorie::create($data);
-
-    return redirect()->route('admin.index.categories')
-        ->with('success', 'Categorie created successfully.');
-}
+    {
+        $request->validate([
+            'categorie' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+    
+        // Récupérer toutes les données du formulaire
+        $data = $request->only(['categorie', 'description', 'image']);
+    
+        // Créer une nouvelle catégorie avec les données du formulaire
+        Categorie::create($data);
+    
+        return redirect()->route('admin.index.categories')
+            ->with('success', 'Categorie created successfully.');
+    }
+    
     public function show($id)
     {
         $categorie = Categorie::find($id);
@@ -63,6 +66,8 @@ class CategorieController extends Controller
     {
         $request->validate([
            'categorie'=>'required',
+           'description' => 'required',
+           'image' => 'required',
         ]);
 
         $categorie = Categorie::find($id);

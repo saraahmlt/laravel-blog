@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Post;
+use App\Models\Categorie;
 
 
 class AdminPostController extends Controller
@@ -16,8 +17,11 @@ class AdminPostController extends Controller
 
     public function create()
     {
+        $categories = Categorie::all();
+
         return view('createpost', [
-            'title' => "All Posts"
+            'title' => "All Posts",
+            'categories' => $categories
         ]);
     }
 
@@ -29,8 +33,6 @@ class AdminPostController extends Controller
             'content' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
-        
     
         // Traitement de l'image
        
@@ -40,8 +42,9 @@ class AdminPostController extends Controller
         $postData = $request->all();
         $postData['user_id'] = Auth::id(); // Associating the post with the currently authenticated user
         
-        
-        Post::create($postData);
+        $post = Post::create($postData);
+
+        $post->categories()->attach($request->categories);
 
         return redirect()->route('admin.myposts')
             ->with('success', 'Post created successfully.');
@@ -55,10 +58,14 @@ class AdminPostController extends Controller
 
     public function edit($id)
     {
+        $categories = Categorie::all();
         $post = Post::find($id);
+        $idCategories = array_column($post->categories->all(), 'id');
         return view('editposts', [
             "title" => "Edit Post",
-            "post" => $post
+            "post" => $post,
+            'categories' => $categories,
+            'idCategories' => $idCategories,
         ]);
     }
 
@@ -73,6 +80,8 @@ class AdminPostController extends Controller
 
         $post = Post::find($id);
         $post->update($request->all());
+
+        $post->categories()->sync($request->categories);
 
         return redirect()->route('admin.myposts')
             ->with('success', 'Post updated successfully.');

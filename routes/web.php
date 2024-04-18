@@ -8,6 +8,8 @@ use App\Http\Controllers\pagewelcome;
 use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\PageAdminController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', [pagewelcome::class, 'welcome'])->name('page.welcome');
 Route::get('/legals', [pagecontrol::class, 'legals'])->name('page.legals');
@@ -24,8 +26,9 @@ Route::group(['prefix' => '/dashboard'],function () {
     Route::put('/post/{id}/edit', [AdminPostController::class, 'update'])->middleware(['auth'])->name('admin.update.posts');
     Route::delete('/post/{id}/edit', [AdminPostController::class, 'destroy'])->middleware(['auth'])->name('admin.destroy.posts');
     Route::get('/admin/posts/{id}', [AdminPostController::class, 'show'])->name('admin.posts.show');
-
     
+
+Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/categories', [CategorieController::class, 'index'])->middleware(['auth'])->name('admin.index.categories');
 
     Route::get('/categorie', [CategorieController::class, 'create'])->middleware(['auth'])->name('admin.create.categories');
@@ -34,18 +37,32 @@ Route::group(['prefix' => '/dashboard'],function () {
     Route::get('/categorie/{id}/edit', [CategorieController::class, 'edit'])->middleware(['auth'])->name('admin.edit.categories');
     Route::put('/categorie/{id}/edit', [CategorieController::class, 'update'])->middleware(['auth'])->name('admin.update.categories');
     Route::delete('/categorie/{id}/edit', [CategorieController::class, 'destroy'])->middleware(['auth'])->name('admin.destroy.categories');
+   
     Route::get('/admin/categories/{id}', [CategorieController::class, 'show'])->name('admin.categories.show');
+
+    Route::get('/users', [AdminUserController::class, 'index'])->middleware(['auth'])->name('admin.users.index');
+
+    Route::get('/user/{id}', [AdminUserController::class, 'show'])->middleware(['auth'])->name('admin.users.show');
+
+    Route::get('/user/{id}/edit', [AdminUserController::class, 'edit'])->middleware(['auth'])->name('admin.users.edit');
+    Route::put('/user/{id}/edit', [AdminUserController::class, 'update'])->middleware(['auth'])->name('admin.users.update');
+    Route::delete('/user/{id}/edit', [AdminUserController::class, 'destroy'])->middleware(['auth'])->name('admin.users.destroy');
 
 
 });
-
-
+});
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('edit.profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('update.profile');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('destroy.profile');
+
+  
+
+
 });
+
+Route::post('/upload', [UploadController::class, 'store'])->name('upload');
 
 require __DIR__.'/auth.php';

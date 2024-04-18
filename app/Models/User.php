@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Post;
 
 class User extends Authenticatable
 {
@@ -23,9 +24,17 @@ class User extends Authenticatable
         'password',
         'role',
     ];
-    public function adnimPost(): HasMany
+    public function ost(): HasMany
     {
-        return $this->hasMany(AdminPost::class);
+        return $this->hasMany(Post::class);
+    }
+    public function isAdmin()
+    {
+        return ($this->role === "admin");
+    }
+    public function isClient()
+    {
+        return ($this->role === "client");
     }
 
     /**

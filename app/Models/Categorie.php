@@ -13,11 +13,13 @@ class Categorie extends Model
 
     protected $fillable = [
        'categorie',
+       'description',
+       'image',
     ];
 
     public function posts()
     {
-        return $this->belongsToMany(Post::class, 'categorie_post');
+        return $this->BelongsToMany(Post::class, 'categorie_post')->withTimestamps();
     }
     
 }

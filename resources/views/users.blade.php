@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>My Posts</title>
+        <title>Catégorie</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -19,46 +19,27 @@
     color: white;
 }
        
-#PostCreate {
-    background-color: #FF007F;
-    border-radius: 15px;
-    color: white;
-    font-weight: bold;
-    padding: 10px 15px 10px 15px;
-}
 
-#PostEdit {
-    background-color: #6A5ACD;
-    border-radius: 15px;
-    color: white;
-    font-weight: bold;
-    padding: 10px 15px 10px 15px;
-}
-
-#PostDelete {
-    background-color: #98AFC7;
-    border-radius: 15px;
-    color: white;
-    font-weight: bold;
-    padding: 10px 15px 10px 15px;
-}
-            .posts-container {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-            }
             
-.post-container {
-    width: calc(50% - 10px); 
-    margin-bottom: 20px;
-}
 
+
+
+
+
+
+#image {
+        height: 500px;
+        width :500px;
+        top: 200px;
+        left: 100px;
+       }
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
         <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <!-- Header -->
+                
                 @include('layouts.front.header')
                 <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
@@ -71,11 +52,38 @@
                         </div>
                     </div>
                 </main>
-               <!-- resources/views/admin/posts/show.blade.php -->
+                 
 
-               @extends('layouts.app')
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br> 
 
-
+                <div class="posts-container">
+    @foreach($users as $user)
+        <div class="post-container">
+            <div class="post-p-4">
+              <div class="post-p">
+                <p>{{ $user->name }}</p>
+                <p>{{ $user->email }}</p>
+                <p>{{ $user->password }}</p>
+                <p>{{ $user->role }}</p>
+                
+              </div>
+                <br>
+                <a href="{{ route('admin.users.edit', $user->id) }}" id= "UserEdit">Modifier</a>
+                <form action="{{ route('admin.users.destroy', $user->id) }}" method="post">
+                    @csrf
+                    @method("DELETE")
+                    <br>
+                    <button type="submit" id= "UserDelete">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    @endforeach
+</div>
 
                 <!-- Footer -->
                 @include('layouts.front.footer')

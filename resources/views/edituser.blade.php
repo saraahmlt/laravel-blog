@@ -1,7 +1,20 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <title>Catégorie</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <body>
+        <form  action="{{ route('admin.users.update', $user->id) }}" method="post" >
+        @csrf
+        @method("PUT")
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -51,5 +64,5 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
-
+</body>
+</html>
