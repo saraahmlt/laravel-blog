@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Categorie;
+use Illuminate\Support\Str;
 
 use App\Models\Post;
 
@@ -34,18 +35,25 @@ class CategorieController extends Controller
         $request->validate([
             'categorie' => 'required',
             'description' => 'required',
-            'image' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        // Récupérer toutes les données du formulaire
-        $data = $request->only(['categorie', 'description', 'image']);
+        $folders = 'images/'.date("Y/m/d");
+        $extension = $request->file('image')->extension();
+        $imageName = time().'-'.Str::slug(basename($request->file('image')->getClientOriginalName(), ".".$extension), '-').'.'.$extension;
+        $request->file('image')->move(public_path($folders), $imageName);
+        $request->request->add(['image' => $folders.'/'.$imageName]);
     
+        // Récupérer toutes les données du formulaire
+        $postData = $request->only(['categorie', 'description']);
+        $postData['image'] = $folders.'/'.$imageName;
         // Créer une nouvelle catégorie avec les données du formulaire
-        Categorie::create($data);
+        Categorie::create($postData);
     
         return redirect()->route('admin.index.categories')
             ->with('success', 'Categorie created successfully.');
     }
+    
     
     public function show($id)
     {
@@ -65,17 +73,30 @@ class CategorieController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-           'categorie'=>'required',
-           'description' => 'required',
-           'image' => 'required',
+            'categorie' => 'required',
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         $categorie = Categorie::find($id);
-        $categorie->update($request->all());
-
+    
+        if ($request->hasFile('image')) {
+            $folders = 'images/'.date("Y/m/d");
+            $extension = $request->file('image')->extension();
+            $imageName = time().'-'.Str::slug(basename($request->file('image')->getClientOriginalName(), ".".$extension), '-').'.'.$extension;
+            $request->file('image')->move(public_path($folders), $imageName);
+            $categorie->image = $folders.'/'.$imageName;
+        }
+    
+        $categorie->categorie = $request->categorie;
+        $categorie->description = $request->description;
+    
+        $categorie->save();
+    
         return redirect()->route('admin.index.categories')
             ->with('success', 'Categorie updated successfully.');
     }
+    
 
     public function destroy($id)
     {

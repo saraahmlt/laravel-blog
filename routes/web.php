@@ -15,6 +15,10 @@ Route::get('/', [pagewelcome::class, 'welcome'])->name('page.welcome');
 Route::get('/legals', [pagecontrol::class, 'legals'])->name('page.legals');
 Route::get('/aboutus', [pageAboutUs::class, 'aboutus'])->name('page.aboutus');
 
+Route::get('/blog', [PostController::class, 'index'])->name('page.blog');
+Route::get('/blog/category/{category}', [PostController::class, 'category'])->name('page.blog.category');
+Route::get('/blog/post/{post}', [PostController::class, 'show'])->name('page.blog.single');
+
 Route::group(['prefix' => '/dashboard'],function () {
     Route::get('/', [PageAdminController::class, 'dashboard'])->middleware(['auth'])->name('admin.dashboard');
     Route::get('/my-posts', [PageAdminController::class, 'myposts'])->middleware(['auth'])->name('admin.myposts');

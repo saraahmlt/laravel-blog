@@ -74,7 +74,6 @@
         <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <!-- Header -->
-                
                 @include('layouts.front.header')
                 <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
@@ -105,7 +104,7 @@
                 <p>{{ $post->description }}</p>
                 <p>{{ $post->content }}</p>
                 <p>Author: {{ $post->user->name }}</p>
-                <img id="image" src="{{ $post->image }}" alt="Image du post">
+                <img id="image" src="{{ URL::to('/') }}/{{ $post->image }}" alt="Image du post">
               </div>
                 <br>
                 <a href="{{ route('admin.edit.posts', $post->id) }}" id= "PostEdit">Modifier</a>

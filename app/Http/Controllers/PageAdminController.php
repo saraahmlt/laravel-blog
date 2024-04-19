@@ -26,7 +26,7 @@ use App\Models\Post;
         public function myposts(): View
         {
     //      
-            $posts = Post::latest()->take(6)->get();
+            $posts = Post::latest()->get();
     
             return view('myposts', [
                 'title' => 'My posts',

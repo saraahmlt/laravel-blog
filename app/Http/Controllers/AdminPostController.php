@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 use App\Models\Post;
 use App\Models\Categorie;
@@ -35,11 +36,15 @@ class AdminPostController extends Controller
         ]);
     
         // Traitement de l'image
-       
-    
+        $folders = 'images/'.date("Y/m/d");
+        $extension = $request->file('image')->extension();
+        $imageName = time().'-'.Str::slug(basename($request->file('image')->getClientOriginalName(), ".".$extension), '-').'.'.$extension;
+        $request->file('image')->move(public_path($folders), $imageName);
+        $request->request->add(['image' => $folders.'/'.$imageName]);
 
         // Associer l'user_id du post à l'utilisateur connecté
         $postData = $request->all();
+        $postData['image'] = $folders.'/'.$imageName;
         $postData['user_id'] = Auth::id(); // Associating the post with the currently authenticated user
         
         $post = Post::create($postData);
@@ -70,22 +75,39 @@ class AdminPostController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'content' => 'required',
-            'image' => 'required'
-        ]);
+{
+    $request->validate([
+        'title' => 'required|max:255',
+        'description' => 'required',
+        'content' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $post = Post::find($id);
-        $post->update($request->all());
+    $post = Post::find($id);
 
-        $post->categories()->sync($request->categories);
-
-        return redirect()->route('admin.myposts')
-            ->with('success', 'Post updated successfully.');
+    
+    if ($request->hasFile('image')) {
+        $folders = 'images/'.date("Y/m/d");
+        $extension = $request->file('image')->extension();
+        $imageName = time().'-'.Str::slug(basename($request->file('image')->getClientOriginalName(), ".".$extension), '-').'.'.$extension;
+        $request->file('image')->move(public_path($folders), $imageName);
+        $post->image = $folders.'/'.$imageName;
     }
+
+    
+    $post->title = $request->title;
+    $post->description = $request->description;
+    $post->content = $request->content;
+
+    
+    $post->save();
+
+   
+    $post->categories()->sync($request->categories);
+
+    return redirect()->route('admin.myposts')
+        ->with('success', 'Post updated successfully.');
+}
 
     public function destroy($id)
     {

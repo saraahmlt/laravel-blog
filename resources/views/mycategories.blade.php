@@ -86,7 +86,7 @@
             <div class="post p-4">
                 <p>{{ $categorie->categorie }}</p>
                 <p>{{ $categorie->description }}</p>
-                <img id="image" src="{{ $categorie->image }}" alt="Image de la catégorie">
+                <img id="image" src="{{ URL::to('/') }}/{{ $categorie->image }}" alt="Image de la catégorie">
                 <br>
                 <a href="{{ route('admin.edit.categories', $categorie->id) }}" id= "PostEdit">Modifier</a>
                 <form action="{{ route('admin.destroy.categories', $categorie->id) }}" method="post">

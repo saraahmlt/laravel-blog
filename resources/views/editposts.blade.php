@@ -74,7 +74,7 @@
                     </main>
 
 
- <form action="{{ route('admin.update.posts', $post->id) }}" method="post">
+ <form action="{{ route('admin.update.posts', $post->id) }}" method="post" enctype="multipart/form-data">
     
     @csrf
     @method("PUT")
