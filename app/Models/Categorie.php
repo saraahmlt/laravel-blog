@@ -19,7 +19,7 @@ class Categorie extends Model
 
     public function posts()
     {
-        return $this->BelongsToMany(Post::class, 'categorie_post')->withTimestamps();
+        return $this->BelongsToMany(Post::class, 'categorie_post', 'post_id', 'category_id')->withTimestamps();
     }
     
 }

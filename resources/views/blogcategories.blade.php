@@ -29,19 +29,20 @@
         font-size: 20px;
        }
 
-       #image {
-        height: 500px;
-        width :500px;
-        position: absolute;
-        top: 200px;
-        left: 100px;
-       }
-
-     
- 
        
 
- 
+     
+ #image {
+    width: 500px;
+    height: 500px;
+ }
+       
+
+ .voirplus {
+    background-color: black;
+    padding: 5px 5px 5px 5px;
+   
+ }
        
         </style>
     </head>
@@ -92,52 +93,54 @@
 
   
 
-        <ul class="categories" style="display: flex;flex-wrap: wrap;">
-            @if(!empty($categories) && count($categories) > 0)
-                @foreach($categories as $categorie)
-                    <a href="{{ route('page.blog.category',$category) }}" class="bg-white text-black rounded-full px-10" style="display: flex;align-content: center;justify-content: flex-start;margin: 0 10px 10px 0">
-                        <div class="banner" style="height: 50px; width: 50px;border-radius: 100%;background-position: center;background-size:cover;background-image: url('{{ URL::to('/')}}/{{$category->image }}')"></div>
-                        <div style="padding: 5px 15px 5px 5px;display: flex;align-items: center;"><span>{{$categorie->title}}</span></div>
-                    </a>
-                @endforeach
-            @endif
-        </ul>
 
-        <ul class="grid-cols-3 w-full">
-            @if(count($posts) > 0)
-                @foreach($posts as $post)
-                    <li class="">
-                        <div class="post p-4">
-                            <div class="banner" style="width: 100%; height: 180px;border-radius: 10px;background-position: center;background-size:cover;background-image: url('{{ URL::to('/')}}/{{$post->image }}')"></div>
+                    <form method="GET" action="{{ route('page.blog.categorie') }}" class="w-full">
+    <div class="form-group flex flex-col">
+        <label for="categorie">Catégories</label>
+        <select id="categorie" name="categories[]" class="form-control text-black" multiple>
+            @foreach ($categories as $categorie)
+                <option value="{{ $categorie->id }}">{{ $categorie->categorie }}</option>
+            @endforeach
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Afficher les articles</button>
+    <button type="submit" formaction="{{ route('page.blog.categorie') }}" class="btn btn-primary">Voir tous les articles</button>
+</form>
 
-                            <h2 class="text-white block" style="margin-top: 10px"><a href="{{ route('page.blog.single',$post) }}">{{ $post->title }}</a></h2>
-                            @if(!empty($post->user->name))
-                                <span class="block">by {{ $post->user->name }}</span>
-                            @endif
-
-                            @if (!empty($post->categories) && count($post->categories) > 0)
-                                <div class="categories">
-                                    <span>cats :</span>
-                                    @foreach ($post->categories as $k => $categorie)
-                                        <span> @if($k!=0)/@endif {{ $categorie->categorie }}</span>
-                                    @endforeach
-                                </div>
-                            @endif
-
-                            <div class="description" style="margin: 10px 0 0 0">
-                                <p>{{ $post->description }}</p>
-                            </div>
-                        </div>
-                    </li>
-                @endforeach
-            @else
-                <li>No Posts</li>
-            @endif
-        </ul>
+<div class="container mt-5">
+    <div class="grid gap-4 grid-cols-2">
+        @foreach ($posts as $post)
+            <div class="flex items-start gap-6 lg:flex-col">
+                <div class="card w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ $post->title }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ $post->description }}</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ $post->content }}</p>
+                    </div>
+                    <div class="card-body">
+                    <img id="image" src="{{ URL::to('/') }}/{{ $post->image }}" alt="Image du post" >
+                    </div>
+                    <div class="card-body">
+                        <h5>Auteur :</h5>
+                        <p>{{ $post->user->name }}</p>
+                    </div>
+                    <div class="card-body">
+                        <h5>Catégories :</h5>
+                        @foreach ($post->categories as $categorie)
+                            <p>{{ $categorie->categorie }}</p>
+                            <a class="voirplus" href="{{ route('page.blog.single', $post->id) }}">Voir plus</a>
+                        @endforeach
+                    </div>
+                    
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>
-
-
 
 
 <br>

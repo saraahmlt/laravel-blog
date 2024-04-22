@@ -15,7 +15,28 @@ use App\Models\Categorie;
 
 class AdminPostController extends Controller
 {
+    public function index(Request $request)
+    {
+        // Récupérer toutes les catégories disponibles
+        $categories = Categorie::all();
 
+        // Récupérer les articles en fonction des catégories sélectionnées
+        $posts = Post::with('categories');
+
+        if ($request->has('categories')) {
+            // Si des catégories sont sélectionnées dans la requête, filtrer les articles en fonction de ces catégories
+            $selectedCategories = $request->input('categories');
+            $posts->whereHas('categories', function ($query) use ($selectedCategories) {
+                $query->whereIn('category.id', $selectedCategories); // Spécifier la colonne 'id' avec le nom de la table pour éviter l'ambiguïté
+            });
+        }
+
+        // Récupérer les articles filtrés
+        $posts = $posts->get();
+
+        // Retourner la vue avec les articles et les catégories pour le formulaire de filtrage
+        return view('blogcategories', compact('posts', 'categories'));
+    }
     public function create()
     {
         $categories = Categorie::all();
@@ -58,7 +79,7 @@ class AdminPostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('show', compact('post'));
+        return view('pagepostsingle', compact('post'));
     }
 
     public function edit($id)

@@ -16,9 +16,42 @@
 
 
        body {
-    background: linear-gradient(135deg, #B19CD9 30%, #FF00FF);
-    color: white;
+        background: linear-gradient(135deg, #B19CD9 30%, #FF00FF);
+        color: white;
        }
+
+     
+       .post-p-4 {
+        background-color: white;
+        width: 700px;
+        height: 800px;
+        position: relative;
+        font-size: 20px;
+        color: black;
+       }
+
+       #image {
+        height: 500px;
+        width :500px;
+        position: absolute;
+        top: 200px;
+        left: 100px;
+       }
+
+     h1 {
+        color: black;
+     }
+ 
+    .text-white {
+        color: black;
+    } 
+
+ .voirplus {
+    background-color: white;
+    padding: 5px 5px 5px 5px;
+    border: black 1px solid;
+ }
+       
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
@@ -26,7 +59,7 @@
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                    @include ('layouts.front.header')
-
+                   
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                             
@@ -66,20 +99,23 @@
                         </div>
                     </main>
 
-<div class="posts-container">                 
-<div class="posts">
-<ul class="grid-cols-3">
+                    <div class="posts-container">                 
+    <div class="posts">
+        <ul>
             @if(count($posts) > 0)
                 @foreach($posts as $post)
-                    <li class="">
-                        <div class="post p-4">
-                            <h2 class="text-white"><a href="{{ route('page.blog',$post->id) }}">{{ $post->title }}</a></h2>
-                            @if(!empty($post->user->name))
-                                <span class="block">{{ $post->user->name }}</span>
-                            @endif
+                    <li class="post-item">
+                        <div class="post-p-4">
+                            <h1 class="text-white">{{ $post->title }}</h1>
                             <p>{{ $post->description }}</p>
+                            <p>{{ $post->content }}</p>
+                            <img id="image" src="{{ $post->image }}" alt="Image du post">
+                            <p>{{$post->categorie}}</p>
+                            <a class="voirplus" href="{{ route('page.blog.single', $post->id) }}">Voir plus</a>
                         </div>
                     </li>
+                    <br>
+                    <br>
                 @endforeach
             @else
                 <li>No Posts</li>
@@ -88,15 +124,10 @@
     </div>
 </div>
 
-@include('layouts.front.footer')
-            
-        
-</div>
-</div>
 
 <br>
 <br>
-                   @include ('layouts.front.footer')
+@include('layouts.front.footer')
                 </div>
             </div>
         </div>

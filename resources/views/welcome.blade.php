@@ -38,7 +38,9 @@
        }
 
      
- 
+ .category {
+    color: black;
+ }
        
 
  
@@ -50,7 +52,10 @@
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                    @include ('layouts.front.header')
-                   <a href="{{ route('page.blog') }}" style="" class="btn__classic">Le Blog</a>
+                   <a href="{{ route('page.blog') }}" style="" class="btn__classic">Blog</a>
+                   <a href="{{ route('page.blog.categorie') }}" style="" class="btn__classic">Catégories</a>
+                   <a href="{{ route('page.aboutus') }}" style="" class="btn__classic">A propos</a>
+                   <a href="{{ route('page.legals') }}" style="" class="btn__classic">Mentions légales</a>
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                             
@@ -101,6 +106,7 @@
                             <p>{{ $post->description }}</p>
                             <p>{{ $post->content }}</p>
                             <img id="image" src="{{ $post->image }}" alt="Image du post">
+                            <p class="category">{{$post->categorie}}</p>
                         </div>
                     </li>
                     <br>
@@ -116,7 +122,7 @@
 
 <br>
 <br>
-                   @include ('layouts.front.footer')
+@include('layouts.front.footer')
                 </div>
             </div>
         </div>
